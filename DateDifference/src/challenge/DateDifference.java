@@ -36,6 +36,8 @@ public class DateDifference {
 				// Index 2 representing year
 				int[] date1 = new int[3];
 				int[] date2 = new int[3];
+				
+				int totalDays = 0;
 				Boolean inputValid = false;
 				String err = new String("");
 				// If the data is in the correct format, the input will be 22 characters long
@@ -48,13 +50,10 @@ public class DateDifference {
 				inputValid = validateDates(input, date1, date2, err);
 
 				if (inputValid) {
-					calculateDifference(date1, date2);
-					System.out.println(input);
+					totalDays = calculateDifference(date1, date2);
+					System.out.println(input + ", " + totalDays);
 				}
-				/*
-				 * for (int i = 0; i < 3; i++) { System.out.println(date1[i]);
-				 * System.out.println(date2[i]); }
-				 */
+				
 			}
 		} catch (IOException e) {
 			System.out.println("Couldn't read the data");
@@ -120,8 +119,13 @@ public class DateDifference {
 
 	//Checks if the first input first paramter comes before the 2nd parameter
 	private static Boolean inputOrderValid(int[] date1, int[] date2) {
+		
+		//Check date1's year is less than the other, then its valid
 		if(date1[yearIndex] >= date2[yearIndex]) {
+			
+			//if the years are the same and but the date1's month is greater, its not valid
 			if(date1[yearIndex] == date2[yearIndex] && date1[monthIndex] <= date2[monthIndex]) {
+				//if the months are the same, check is the date1's day is greater, if so its invalid. Otherwise its valid.
 				if(date1[monthIndex] == date2[monthIndex] && date1[dayIndex] > date2[dayIndex]) {
 					return false;
 				} else {
@@ -131,38 +135,49 @@ public class DateDifference {
 				return false;
 			}
 		}
-		
 		return true;
 	}
 
-	/*
-	 * //Checks if the first input first paramter comes before the 2nd parameter
-	private static Boolean inputOrderValid(int[] date1, int[] date2) {
-		if(date1[yearIndex] <= date2[yearIndex]) {
-			if(date1[yearIndex] == date2[yearIndex]) {
-				if (date1[monthIndex] <= date2[monthIndex]) {
-					if (date1[monthIndex] == date2[monthIndex]) {
-						if (date1[dayIndex] <= date2[dayIndex]) {
-							return true;
-						} else {
-							return false;
-						}
-					} else {
-						return true;
-					}
-				} else {
-					return false;
-				}
+
+	private static int calculateDifference(int[] date1, int[] date2) {
+		int total = 0;
+		total += calculateRemaining(date1) + 1;
+		//System.out.println("nice: "+total);
+		for(int i = date1[yearIndex] + 1; i < date2[yearIndex]; i++) {
+			if(isLeapYear(i)) {
+				total += 366;
 			} else {
-				return true;
+				total += 365;
 			}
-		} else {
-			return false;
 		}
+		
+		//Calculate the days from the date til the end of the year, but plus 1 to re
+		int temp = calculateRemaining(date2); 
+		//System.out.println("ouch:" +temp);
+		if(date1[yearIndex] == date2[yearIndex]) {
+			total -= temp;
+		} else {
+			total += isLeapYear(date2[yearIndex]) ? 366 - temp : 365 - temp;
+		}
+	
+		return total;
 	}
-	 * */
-	private static void calculateDifference(int[] date1, int[] date2) {
-		// System.out.println(dates);
+
+	private static int calculateRemaining(int[] date) {
+		int daysInYear = isLeapYear(date[yearIndex]) ? 366 : 365;
+		int total = 0;
+		if (isLeapYear(date[yearIndex])) {
+			daysInMonth[1] = 29;
+		}
+		for (int i = 0; i < date[monthIndex] - 1; i++) {
+			total += daysInMonth[i];
+		}
+		
+		if (isLeapYear(date[yearIndex])) {
+			daysInMonth[1] = 28;
+		}
+		total += date[dayIndex];
+		return daysInYear - total;
 	}
 
 	private static Boolean isLeapYear(int year) {
