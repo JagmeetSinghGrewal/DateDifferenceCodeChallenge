@@ -81,7 +81,7 @@ public class DateDifference {
 		}
 
 		if(!inputOrderValid(date1, date2)) {
-			System.out.println("The dates aren't in the correct order. The first date comes after the second");
+			System.out.println("The dates aren't in the correct order. The first date comes after the second (" + input + ").");
 			return false;
 		}
 		return true;
@@ -120,6 +120,24 @@ public class DateDifference {
 
 	//Checks if the first input first paramter comes before the 2nd parameter
 	private static Boolean inputOrderValid(int[] date1, int[] date2) {
+		if(date1[yearIndex] >= date2[yearIndex]) {
+			if(date1[yearIndex] == date2[yearIndex] && date1[monthIndex] <= date2[monthIndex]) {
+				if(date1[monthIndex] == date2[monthIndex] && date1[dayIndex] > date2[dayIndex]) {
+					return false;
+				} else {
+					return true;
+				}
+			} else {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+
+	/*
+	 * //Checks if the first input first paramter comes before the 2nd parameter
+	private static Boolean inputOrderValid(int[] date1, int[] date2) {
 		if(date1[yearIndex] <= date2[yearIndex]) {
 			if(date1[yearIndex] == date2[yearIndex]) {
 				if (date1[monthIndex] <= date2[monthIndex]) {
@@ -142,7 +160,7 @@ public class DateDifference {
 			return false;
 		}
 	}
-
+	 * */
 	private static void calculateDifference(int[] date1, int[] date2) {
 		// System.out.println(dates);
 	}
