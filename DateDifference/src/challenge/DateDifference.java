@@ -85,6 +85,12 @@ public class DateDifference {
 		
 		// Parse the string input to integers
 		String[] dates = processedInput.split(",");
+		
+		if(dates.length != 2) {
+			System.out.println("'" + input + "'"+ " is not in the right format. Please change to match this format: DD MM YYYY, DD MM YYYY");
+			return false;
+		}
+		
 		String[] tempDate1 = {dates[0].substring(0,2), dates[0].substring(2,4),dates[0].substring(4)};
 		String[] tempDate2 = {dates[1].substring(0,2), dates[1].substring(2,4),dates[1].substring(4)};
 
