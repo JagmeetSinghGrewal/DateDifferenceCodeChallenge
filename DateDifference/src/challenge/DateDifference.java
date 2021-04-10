@@ -16,8 +16,10 @@ public class DateDifference {
 	//Year Range for date difference calculator 
 	private static int minYear = 1900;
 	private static int maxYear = 2010;
-
 	
+	//A boolean to decide if we want extra debug information
+	private static Boolean debug = false;
+
 	////////////////////////Methods////////////////////////
 	public static void main(String[] args) {
 		
@@ -64,6 +66,7 @@ public class DateDifference {
 				inputValid = validateDates(input, processedInput,  date1, date2);
 
 				if (inputValid) {
+					//If the inputs were valid, calculate the difference
 					daysDiff = calculateDifference(date1, date2);
 					System.out.println(input + ", " + daysDiff);
 				}
@@ -110,13 +113,13 @@ public class DateDifference {
 		
 		//If the year is not within the range, the date isn't valid. 
 		if (date[yearIndex] < minYear || date[yearIndex] > maxYear) {
-			System.out.print(date[yearIndex] + " isn't a valid year. ");
+			if(debug) System.out.print(date[yearIndex] + " isn't a valid year. ");
 			return false;
 		}
 
 		//If the months aren't number from 1 to 12, the date isn't valid. 
 		if (date[monthIndex] < 1 || date[monthIndex] > 12) {
-			System.out.print(date[monthIndex] + " isn't a valid month. ");
+			if(debug) System.out.print(date[monthIndex] + " isn't a valid month. ");
 			return false;
 		}
 
@@ -129,7 +132,7 @@ public class DateDifference {
 
 		//If the date isn't between 1 and the number of days of that month (inclusive). Then the date isnt valid. 
 		if (date[dayIndex] < 1 || date[dayIndex] > tempDaysInMonth) {
-			System.out.print(date[dayIndex] + " isn't a valid day for "+ MONTHS.values()[date[monthIndex] - 1] + " " + date[yearIndex]+". ");
+			if(debug) System.out.print(date[dayIndex] + " isn't a valid day for "+ MONTHS.values()[date[monthIndex] - 1] + " " + date[yearIndex]+". ");
 			return false;
 		}
 
