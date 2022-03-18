@@ -38,3 +38,5 @@ tmp/
 local.properties
 .loadpath
 .factorypath
+
+*.iml
